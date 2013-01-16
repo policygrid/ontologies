@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns="http://www.policygrid.org/intent.owl#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xml:base="http://www.policygrid.org/intent.owl">
+  <owl:Ontology rdf:about=""/>
+  <owl:Class rdf:ID="WorkflowEngine"/>
+  <owl:Class rdf:ID="FlowControl">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="WorkflowAction"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#WorkflowAction">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Atom"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Formula">
+    <rdfs:subClassOf rdf:resource="#Atom"/>
+  </owl:Class>
+  <owl:Class rdf:ID="WorkflowState"/>
+  <owl:Class rdf:ID="GridService">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="ComputationalResource"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Goal">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A goal represents a desired state.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:ID="TestGoal">
+    <rdfs:subClassOf rdf:resource="#Goal"/>
+  </owl:Class>
+  <owl:Class rdf:ID="ActionGoal">
+    <rdfs:subClassOf rdf:resource="#Goal"/>
+  </owl:Class>
+  <owl:Class rdf:ID="AchievementGoal">
+    <rdfs:subClassOf rdf:resource="#Goal"/>
+  </owl:Class>
+  <owl:Class rdf:ID="WorkflowExperiment"/>
+  <owl:Class>
+    <owl:unionOf rdf:parseType="Collection">
+      <owl:Class rdf:about="#ComputationalResource"/>
+      <owl:Class rdf:about="#WorkflowExperiment"/>
+    </owl:unionOf>
+  </owl:Class>
+  <owl:Class rdf:ID="PostCondition">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Condition"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Constraint">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The state being checked, restricted compelled to avoid or perform some actions.</rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:ID="Element">
+    <rdfs:subClassOf rdf:resource="#Atom"/>
+  </owl:Class>
+  <owl:Class rdf:ID="PreCondition">
+    <rdfs:subClassOf rdf:resource="#Condition"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Intent"/>
+  <owl:ObjectProperty rdf:ID="containsComputationalResources">
+    <rdfs:range rdf:resource="#ComputationalResource"/>
+    <rdfs:domain rdf:resource="#WorkflowExperiment"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasConstraint">
+    <rdfs:range rdf:resource="#Constraint"/>
+    <rdfs:domain rdf:resource="#Intent"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasGoal">
+    <rdfs:domain rdf:resource="#Intent"/>
+    <rdfs:range rdf:resource="#Goal"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasIntent">
+    <rdfs:range rdf:resource="#Intent"/>
+    <rdfs:domain rdf:resource="#WorkflowExperiment"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="definedBy">
+    <rdfs:domain rdf:resource="#Condition"/>
+    <rdfs:range rdf:resource="#Atom"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasPostCondition">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Constraint"/>
+          <owl:Class rdf:about="#Goal"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:range rdf:resource="#PostCondition"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasSubGoal">
+    <rdfs:domain rdf:resource="#Goal"/>
+    <rdfs:range rdf:resource="#Goal"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasState">
+    <rdfs:domain rdf:resource="#WorkflowExperiment"/>
+    <rdfs:range rdf:resource="#WorkflowState"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="satisfiedOnState">
+    <rdfs:domain rdf:resource="#Constraint"/>
+    <rdfs:range rdf:resource="#WorkflowState"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="supportsAction">
+    <rdfs:range rdf:resource="#WorkflowAction"/>
+    <rdfs:domain rdf:resource="#WorkflowEngine"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:ID="ruleStatement">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#ComputationalResource"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="basedUponOntology">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="describedInOntology">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+    <rdfs:domain rdf:resource="#WorkflowExperiment"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="creator">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#WorkflowExperiment"/>
+          <owl:Class rdf:about="#Intent"/>
+          <owl:Class rdf:about="#ComputationalResource"/>
+          <owl:Class rdf:about="#Constraint"/>
+          <owl:Class rdf:about="#Goal"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasURI">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="#ComputationalResource"/>
+  </owl:DatatypeProperty>
+  <owl:FunctionalProperty rdf:ID="creationDate">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#WorkflowExperiment"/>
+          <owl:Class rdf:about="#Intent"/>
+          <owl:Class rdf:about="#ComputationalResource"/>
+          <owl:Class rdf:about="#Constraint"/>
+          <owl:Class rdf:about="#Goal"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="performedBy">
+    <rdfs:range rdf:resource="#WorkflowEngine"/>
+    <rdfs:domain rdf:resource="#WorkflowExperiment"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="achievedOnState">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#WorkflowState"/>
+    <rdfs:domain rdf:resource="#Goal"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="description">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#WorkflowExperiment"/>
+          <owl:Class rdf:about="#Intent"/>
+          <owl:Class rdf:about="#ComputationalResource"/>
+          <owl:Class rdf:about="#WorkflowEngine"/>
+          <owl:Class rdf:about="#WorkflowAction"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="hasPreCondition">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Constraint"/>
+          <owl:Class rdf:about="#Goal"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="#PreCondition"/>
+  </owl:FunctionalProperty>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 2.1, Build 284)  http://protege.stanford.edu -->
